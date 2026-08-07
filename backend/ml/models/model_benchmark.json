@@ -1,0 +1,153 @@
+{
+  "best_model": "Voting Ensemble (Soft)",
+  "models": {
+    "Voting Ensemble (Soft)": {
+      "accuracy": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1_score": 100.0,
+      "roc_auc": 1.0,
+      "confusion_matrix": [
+        [
+          28,
+          0
+        ],
+        [
+          0,
+          28
+        ]
+      ]
+    },
+    "Stacking Ensemble": {
+      "accuracy": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1_score": 100.0,
+      "roc_auc": 1.0,
+      "confusion_matrix": [
+        [
+          28,
+          0
+        ],
+        [
+          0,
+          28
+        ]
+      ]
+    },
+    "Random Forest": {
+      "accuracy": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1_score": 100.0,
+      "roc_auc": 1.0,
+      "confusion_matrix": [
+        [
+          28,
+          0
+        ],
+        [
+          0,
+          28
+        ]
+      ]
+    },
+    "Gradient Boosting (XGBoost Alt)": {
+      "accuracy": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1_score": 100.0,
+      "roc_auc": 1.0,
+      "confusion_matrix": [
+        [
+          28,
+          0
+        ],
+        [
+          0,
+          28
+        ]
+      ]
+    },
+    "Extra Trees": {
+      "accuracy": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1_score": 100.0,
+      "roc_auc": 1.0,
+      "confusion_matrix": [
+        [
+          28,
+          0
+        ],
+        [
+          0,
+          28
+        ]
+      ]
+    },
+    "Decision Tree": {
+      "accuracy": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1_score": 100.0,
+      "roc_auc": 1.0,
+      "confusion_matrix": [
+        [
+          28,
+          0
+        ],
+        [
+          0,
+          28
+        ]
+      ]
+    },
+    "Logistic Regression": {
+      "accuracy": 100.0,
+      "precision": 100.0,
+      "recall": 100.0,
+      "f1_score": 100.0,
+      "roc_auc": 1.0,
+      "confusion_matrix": [
+        [
+          28,
+          0
+        ],
+        [
+          0,
+          28
+        ]
+      ]
+    }
+  },
+  "feature_names": [
+    "url_length",
+    "hostname_length",
+    "count_dots",
+    "count_hyphens",
+    "count_at",
+    "count_question",
+    "count_percent",
+    "count_equal",
+    "count_slash",
+    "count_digits",
+    "digits_in_hostname",
+    "count_subdomains",
+    "is_ip_address",
+    "url_entropy",
+    "hostname_entropy",
+    "has_suspicious_keyword",
+    "suspicious_keyword_count",
+    "is_https",
+    "suspicious_tld",
+    "is_shortened",
+    "has_non_standard_port",
+    "fake_domain_pattern",
+    "is_homograph_attack",
+    "typosquatting_detected",
+    "has_js_obfuscation",
+    "is_blacklisted",
+    "dns_resolves"
+  ]
+}

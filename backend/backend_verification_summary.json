@@ -1,0 +1,335 @@
+[
+  {
+    "name": "Health Check",
+    "endpoint": "/",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'system': 'CyberShield Enterprise Platform API', 'status': 'Online', 'version': '2.5.0', 'docs': '/docs', 'metrics': '/metrics', 'admin_seed': 'admin@cybershield.com'}",
+    "result": "PASS"
+  },
+  {
+    "name": "Health Check /health",
+    "endpoint": "/health",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'system': 'CyberShield Enterprise Platform API', 'status': 'Online', 'version': '2.5.0', 'docs': '/docs', 'metrics': '/metrics', 'admin_seed': 'admin@cybershield.com'}",
+    "result": "PASS"
+  },
+  {
+    "name": "Prometheus Metrics",
+    "endpoint": "/metrics",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "[text/plain; version=1.0.0; charset=utf-8] size=4753b",
+    "result": "PASS"
+  },
+  {
+    "name": "Swagger Docs",
+    "endpoint": "/docs",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "[text/html; charset=utf-8] size=1076b",
+    "result": "PASS"
+  },
+  {
+    "name": "OpenAPI Spec",
+    "endpoint": "/openapi.json",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'openapi': '3.1.0', 'info': {'title': 'CyberShield Enterprise - AI Threat Intelligence & SOC Governance Platform API', 'description': 'Enterprise REST API v2 for Real-Time Phishing Threat Detection, ",
+    "result": "PASS"
+  },
+  {
+    "name": "Auth Admin Login",
+    "endpoint": "/api/auth/login",
+    "method": "POST",
+    "req_body": "form-data: username=admin@cybershield.com",
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'access_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBjeWJlcnNoaWVsZC5jb20iLCJyb2xlIjoiQWRtaW4iLCJleHAiOjE3ODYxOTQyNDMsInRva2VuX3R5cGUiOiJhY2Nlc3MifQ.-xNPOWPpBs1_C1-pieRraSy17JHLhl",
+    "result": "PASS"
+  },
+  {
+    "name": "Auth Register",
+    "endpoint": "/api/auth/register",
+    "method": "POST",
+    "req_body": {
+      "email": "analyst_1786107843@cybershield.com"
+    },
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'access_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmFseXN0XzE3ODYxMDc4NDNAY3liZXJzaGllbGQuY29tIiwicm9sZSI6IlVzZXIiLCJleHAiOjE3ODYxOTQyNDMsInRva2VuX3R5cGUiOiJhY2Nlc3MifQ.FrEtlT6dI2h0-i",
+    "result": "PASS"
+  },
+  {
+    "name": "Auth Register Duplicate Error",
+    "endpoint": "/api/auth/register",
+    "method": "POST",
+    "req_body": {
+      "email": "admin@cybershield.com"
+    },
+    "status_code": 400,
+    "expected_status": 400,
+    "response_snippet": "{'detail': 'Email already registered'}",
+    "result": "PASS"
+  },
+  {
+    "name": "Auth Get Me (Admin)",
+    "endpoint": "/api/auth/me",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'id': 1, 'email': 'admin@cybershield.com', 'full_name': 'CyberShield Administrator', 'role': 'Admin', 'is_active': True, 'created_at': '2026-07-31T19:09:52.177663'}",
+    "result": "PASS"
+  },
+  {
+    "name": "Auth Get Me (Unauthenticated)",
+    "endpoint": "/api/auth/me",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 401,
+    "expected_status": 401,
+    "response_snippet": "{'detail': 'Authentication required. Please log in.'}",
+    "result": "PASS"
+  },
+  {
+    "name": "Scan Single Phishing URL",
+    "endpoint": "/api/scan",
+    "method": "POST",
+    "req_body": {
+      "url": "http://amaz0n-login.xyz"
+    },
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'id': 25, 'url': 'http://amaz0n-login.xyz', 'domain': 'amaz0n-login.xyz', 'status': 'Phishing', 'risk_score': 98.2, 'confidence_score': 99.2, 'reasons': ['Fake domain pattern / Typosquatting brand sp",
+    "result": "PASS"
+  },
+  {
+    "name": "Scan Single Safe URL",
+    "endpoint": "/api/scan",
+    "method": "POST",
+    "req_body": {
+      "url": "https://google.com"
+    },
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'id': 26, 'url': 'https://google.com', 'domain': 'google.com', 'status': 'Safe', 'risk_score': 0.0, 'confidence_score': 99.5, 'reasons': ['Standard domain structure verified with SSL/HTTPS protection",
+    "result": "PASS"
+  },
+  {
+    "name": "Scan Empty URL Error",
+    "endpoint": "/api/scan",
+    "method": "POST",
+    "req_body": {
+      "url": ""
+    },
+    "status_code": 400,
+    "expected_status": 400,
+    "response_snippet": "{'detail': 'URL field cannot be empty'}",
+    "result": "PASS"
+  },
+  {
+    "name": "Scan Batch URLs",
+    "endpoint": "/api/scan/batch",
+    "method": "POST",
+    "req_body": {
+      "urls": [
+        "amaz0n...",
+        "google..."
+      ]
+    },
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "[{'id': 27, 'url': 'http://amaz0n-login.xyz', 'domain': 'amaz0n-login.xyz', 'status': 'Phishing', 'risk_score': 98.2, 'confidence_score': 99.2, 'reasons': ['Fake domain pattern / Typosquatting brand s",
+    "result": "PASS"
+  },
+  {
+    "name": "Scan Batch Empty Error",
+    "endpoint": "/api/scan/batch",
+    "method": "POST",
+    "req_body": {
+      "urls": []
+    },
+    "status_code": 400,
+    "expected_status": 400,
+    "response_snippet": "{'detail': 'URL list cannot be empty'}",
+    "result": "PASS"
+  },
+  {
+    "name": "Get Threat Intel Feed",
+    "endpoint": "/api/threat-intel",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "[]",
+    "result": "PASS"
+  },
+  {
+    "name": "Add Threat Intel Domain (Admin)",
+    "endpoint": "/api/threat-intel/add",
+    "method": "POST",
+    "req_body": {
+      "domain": "malicious-domain-1786107847.xyz"
+    },
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'id': 1, 'domain': 'malicious-domain-1786107847.xyz', 'threat_type': 'Phishing', 'source': 'Submitted by admin@cybershield.com (Admin)', 'added_on': '2026-08-07T13:04:07.533640'}",
+    "result": "PASS"
+  },
+  {
+    "name": "Add Threat Intel Domain (Forbidden User)",
+    "endpoint": "/api/threat-intel/add",
+    "method": "POST",
+    "req_body": {
+      "domain": "bad.xyz"
+    },
+    "status_code": 403,
+    "expected_status": 403,
+    "response_snippet": "{'detail': \"Access denied. Required role: ['Admin', 'Analyst']\"}",
+    "result": "PASS"
+  },
+  {
+    "name": "Generate PDF Report by ID",
+    "endpoint": "/api/report/pdf/25",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "[application/pdf] size=3197b",
+    "result": "PASS"
+  },
+  {
+    "name": "Generate PDF Direct",
+    "endpoint": "/api/report/pdf/direct",
+    "method": "POST",
+    "req_body": {
+      "url": "http://amaz0n-login.xyz"
+    },
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "[application/pdf] size=3197b",
+    "result": "PASS"
+  },
+  {
+    "name": "Export Report CSV",
+    "endpoint": "/api/report/csv",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "[text/csv; charset=utf-8] size=7668b",
+    "result": "PASS"
+  },
+  {
+    "name": "Get Scan History",
+    "endpoint": "/api/history",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "[{'id': 28, 'url': 'https://google.com', 'domain': 'google.com', 'status': 'Safe', 'risk_score': 0.0, 'confidence_score': 95.0, 'reasons': ['Standard domain structure verified with SSL/HTTPS protectio",
+    "result": "PASS"
+  },
+  {
+    "name": "Get Filtered Scan History",
+    "endpoint": "/api/history?status_filter=Phishing",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "[{'id': 27, 'url': 'http://amaz0n-login.xyz', 'domain': 'amaz0n-login.xyz', 'status': 'Phishing', 'risk_score': 98.2, 'confidence_score': 95.0, 'reasons': ['Fake domain pattern / Typosquatting brand s",
+    "result": "PASS"
+  },
+  {
+    "name": "Export Scan History CSV",
+    "endpoint": "/api/history/export/csv",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "[text/csv; charset=utf-8] size=7513b",
+    "result": "PASS"
+  },
+  {
+    "name": "Get SOC Stats",
+    "endpoint": "/api/stats",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'total_scans': 28, 'phishing_count': 15, 'safe_count': 13, 'suspicious_count': 0, 'avg_risk_score': 51.9, 'recent_scans': [{'id': 28, 'url': 'https://google.com', 'domain': 'google.com', 'status': 'S",
+    "result": "PASS"
+  },
+  {
+    "name": "Get Model Benchmarks",
+    "endpoint": "/api/stats/models",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'best_model': 'Voting Ensemble (Soft)', 'models': {'Voting Ensemble (Soft)': {'accuracy': 100.0, 'precision': 100.0, 'recall': 100.0, 'f1_score': 100.0, 'roc_auc': 1.0, 'confusion_matrix': [[28, 0], ",
+    "result": "PASS"
+  },
+  {
+    "name": "Admin Get All Users",
+    "endpoint": "/api/admin/users",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "[{'id': 3, 'email': 'analyst_1786107843@cybershield.com', 'full_name': 'Test Analyst', 'role': 'User', 'is_active': True, 'created_at': '2026-08-07T13:04:03.694256'}, {'id': 2, 'email': 'analyst_17861",
+    "result": "PASS"
+  },
+  {
+    "name": "Admin Get Users (Forbidden)",
+    "endpoint": "/api/admin/users",
+    "method": "GET",
+    "req_body": null,
+    "status_code": 403,
+    "expected_status": 403,
+    "response_snippet": "{'detail': \"Access denied. Required role: ['Admin']\"}",
+    "result": "PASS"
+  },
+  {
+    "name": "Admin Update Role",
+    "endpoint": "/api/admin/users/1/role?new_role=Admin",
+    "method": "PUT",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'id': 1, 'email': 'admin@cybershield.com', 'full_name': 'CyberShield Administrator', 'role': 'Admin', 'is_active': True, 'created_at': '2026-07-31T19:09:52.177663'}",
+    "result": "PASS"
+  },
+  {
+    "name": "Admin Update Role Invalid",
+    "endpoint": "/api/admin/users/1/role?new_role=SuperGod",
+    "method": "PUT",
+    "req_body": null,
+    "status_code": 400,
+    "expected_status": 400,
+    "response_snippet": "{'detail': 'Invalid role specified. Must be Admin, Analyst, or User.'}",
+    "result": "PASS"
+  },
+  {
+    "name": "Admin Clear Logs",
+    "endpoint": "/api/admin/clear-logs",
+    "method": "DELETE",
+    "req_body": null,
+    "status_code": 200,
+    "expected_status": 200,
+    "response_snippet": "{'message': 'All scan audit logs cleared successfully', 'deleted_count': 28}",
+    "result": "PASS"
+  }
+]

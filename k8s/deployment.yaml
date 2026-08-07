@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cybershield-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cybershield-backend
+  template:
+    metadata:
+      labels:
+        app: cybershield-backend
+    spec:
+      containers:
+      - name: backend
+        image: cybershield/backend:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: JWT_SECRET_KEY
+          value: "cybershield_enterprise_super_secret_jwt_key_2026_xai_soc"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cybershield-backend-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    app: cybershield-backend
