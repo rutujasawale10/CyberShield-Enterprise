@@ -7,8 +7,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 API_V1_STR = "/api"
 API_V2_STR = "/api/v2"
 
+import tempfile
+
 # Database configuration (Supports PostgreSQL and SQLite)
-DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR}/cybershield_enterprise.db")
+if os.getenv("VERCEL"):
+    DEFAULT_DB_PATH = os.path.join(tempfile.gettempdir(), "cybershield_enterprise.db")
+else:
+    DEFAULT_DB_PATH = f"{BASE_DIR}/cybershield_enterprise.db"
+
+DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{DEFAULT_DB_PATH}")
 
 # Cache & Redis configuration
 REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
@@ -29,6 +36,7 @@ VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY", "")
 GOOGLE_SAFE_BROWSING_API_KEY = os.getenv("GOOGLE_SAFE_BROWSING_API_KEY", "")
 ALIENVULT_OTX_API_KEY = os.getenv("ALIENVULT_OTX_API_KEY", "")
 ABUSEIPDB_API_KEY = os.getenv("ABUSEIPDB_API_KEY", "")
+IP_GEOLOCATION_API_KEY = os.getenv("IP_GEOLOCATION_API_KEY", "")
 
 # ML Model Paths
 MODEL_DIR = BASE_DIR / "ml" / "models"

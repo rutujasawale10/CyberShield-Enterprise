@@ -1,3 +1,4 @@
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -29,18 +30,25 @@ app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(PrometheusMetricsMiddleware)
 
 # CORS Configuration
+allowed_origins_env = os.getenv("ALLOWED_ORIGINS", "")
 origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "*"
+    "http://127.0.0.1:3000"
 ]
+if allowed_origins_env:
+    origins.extend([o.strip() for o in allowed_origins_env.split(",") if o.strip()])
+else:
+    origins.append("*")
+
+allow_creds = False if "*" in origins else True
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
+    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_credentials=allow_creds,
     allow_methods=["*"],
     allow_headers=["*"],
 )

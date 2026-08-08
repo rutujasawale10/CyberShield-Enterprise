@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CyberShield - Suspicious Website Warning</title>
+  <style>
+    :root {
+      --bg-dark: #050816;
+      --bg-card: #0D1322;
+      --accent-cyan: #00D9FF;
+      --status-warning: #FFC107;
+      --text-main: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --border-color: rgba(255, 193, 7, 0.3);
+      --font-mono: 'JetBrains Mono', monospace, sans-serif;
+    }
+    body {
+      margin: 0; padding: 0;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 600px; width: 90%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 0 35px rgba(255, 193, 7, 0.18);
+      box-sizing: border-box;
+    }
+    .header {
+      display: flex; align-items: center; gap: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 20px; margin-bottom: 24px;
+    }
+    .icon { font-size: 3rem; color: var(--status-warning); }
+    .title { margin: 0; font-size: 1.5rem; font-weight: 800; color: var(--status-warning); }
+    .subtitle { margin: 4px 0 0 0; font-size: 0.9rem; color: var(--text-muted); }
+    .badge-row { display: flex; gap: 10px; margin-bottom: 20px; }
+    .badge {
+      padding: 6px 14px; border-radius: 20px; font-weight: 800; font-size: 0.8rem;
+      text-transform: uppercase; background: rgba(255, 193, 7, 0.15);
+      color: var(--status-warning); border: 1px solid var(--status-warning);
+    }
+    .target-box {
+      background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px; padding: 16px; margin-bottom: 24px;
+    }
+    .target-url {
+      font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700;
+      color: var(--accent-cyan); word-break: break-all; margin: 0 0 8px 0;
+    }
+    .summary-text { font-size: 0.95rem; line-height: 1.5; color: var(--text-main); margin: 0; }
+    .issues-list { margin: 0 0 24px 0; padding-left: 20px; color: var(--text-main); line-height: 1.6; }
+    .btn-group { display: flex; gap: 12px; }
+    .btn {
+      flex: 1; padding: 14px; border-radius: 10px; font-weight: 700; font-size: 0.9rem;
+      cursor: pointer; border: none; text-align: center; transition: opacity 0.2s;
+    }
+    .btn-safe { background: linear-gradient(135deg, #00D9FF 0%, #0088FF 100%); color: #000; }
+    .btn-bypass { background: rgba(255, 255, 255, 0.06); color: var(--text-muted); border: 1px solid rgba(255, 255, 255, 0.1); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="icon">⚠️</div>
+      <div>
+        <h1 class="title">SUSPICIOUS WEBSITE DETECTED</h1>
+        <p class="subtitle">CyberShield Zero-Trust Pre-Navigation Warning</p>
+      </div>
+    </div>
+
+    <div class="badge-row">
+      <div class="badge">THREAT LEVEL: MODERATE</div>
+      <div class="badge">CLASSIFICATION: SUSPICIOUS</div>
+      <div id="riskScoreBadge" class="badge">RISK SCORE: 54%</div>
+    </div>
+
+    <div class="target-box">
+      <p class="url-title" style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 4px;">Target Destination</p>
+      <p id="targetUrl" class="target-url">http://185.199.108.153</p>
+      <p id="summaryText" class="summary-text">WARNING: This website exhibits unusual structural or network features. Proceed with caution.</p>
+    </div>
+
+    <div style="font-size: 0.85rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); margin-bottom: 10px;">Detected Anomalies:</div>
+    <ul id="issuesList" class="issues-list">
+      <li>Raw IPv4 address host instead of registered domain</li>
+      <li>Insecure HTTP protocol lacking SSL encryption</li>
+    </ul>
+
+    <div class="btn-group">
+      <button id="btnGoBack" class="btn btn-safe">GO BACK TO SAFETY</button>
+      <button id="btnProceed" class="btn btn-bypass">PROCEED ANYWAY (UNSAFE)</button>
+    </div>
+  </div>
+
+  <script src="warning.js"></script>
+</body>
+</html>

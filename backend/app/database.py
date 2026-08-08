@@ -20,7 +20,10 @@ def get_db():
 
 def init_db_seed():
     """Initializes tables and seeds default admin user."""
-    from app.models import User, ScanLog, ThreatFeed, BlockedURL, AuditLog
+    from app.models import (
+        User, ScanLog, ThreatFeed, BlockedURL, AuditLog,
+        ProtectionDevice, SecurityAlert, BlockedEvent, ProtectedNumber, NumberAbuseEvent
+    )
     from app.auth import hash_password
 
     # Ensure all new ORM models are registered before create_all

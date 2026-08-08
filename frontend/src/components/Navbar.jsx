@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldAlert, Activity, Layers, History, BarChart3, Cpu, Lock, LogIn, LogOut, Wrench } from 'lucide-react';
+import { ShieldAlert, Activity, Layers, History, BarChart3, Cpu, Lock, LogIn, LogOut, Wrench, Laptop } from 'lucide-react';
 import { logoutUser } from '../services/api';
 import NotificationCenter from './NotificationCenter';
 
@@ -47,7 +47,7 @@ const Navbar = ({ activeTab, setActiveTab, apiOnline, currentUser, setCurrentUse
               CYBER<span className="text-gradient">SHIELD</span>
             </h1>
             <p style={{ fontSize: '0.7rem', color: '#00D9FF', fontFamily: 'var(--font-mono)', letterSpacing: '0.5px' }}>
-              ENTERPRISE SOC PLATFORM v3.0
+              ENTERPRISE SOC PLATFORM v4.0
             </p>
           </div>
         </div>
@@ -58,6 +58,7 @@ const Navbar = ({ activeTab, setActiveTab, apiOnline, currentUser, setCurrentUse
             { id: 'home', label: 'Home', icon: ShieldAlert },
             { id: 'scanner', label: 'URL Scanner', icon: Activity },
             { id: 'soc', label: 'SOC Dashboard', icon: BarChart3 },
+            { id: 'devices', label: 'Clients & Devices', icon: Laptop },
             { id: 'batch', label: 'Batch Scanner', icon: Layers },
             { id: 'history', label: 'Audit Logs', icon: History },
             { id: 'benchmarks', label: 'AI Benchmarks', icon: Cpu },

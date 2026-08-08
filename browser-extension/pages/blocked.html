@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CyberShield - Phishing Website Blocked</title>
+  <style>
+    :root {
+      --bg-dark: #050816;
+      --bg-card: #0D1322;
+      --accent-cyan: #00D9FF;
+      --status-danger: #FF3D71;
+      --text-main: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --border-color: rgba(255, 61, 113, 0.3);
+      --font-mono: 'JetBrains Mono', monospace, sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 620px;
+      width: 90%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 0 40px rgba(255, 61, 113, 0.25);
+      box-sizing: border-box;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+    .icon {
+      font-size: 3rem;
+      color: var(--status-danger);
+    }
+    .title {
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--status-danger);
+      letter-spacing: 0.5px;
+    }
+    .subtitle {
+      margin: 4px 0 0 0;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .badge-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .badge {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      background: rgba(255, 61, 113, 0.15);
+      color: var(--status-danger);
+      border: 1px solid var(--status-danger);
+    }
+    .target-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+    .target-url {
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      word-break: break-all;
+      margin: 0 0 8px 0;
+    }
+    .summary-text {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: var(--text-main);
+      margin: 0;
+    }
+    .issues-title {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .issues-list {
+      margin: 0 0 24px 0;
+      padding-left: 20px;
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 28px;
+    }
+    .tech-item p { margin: 0; }
+    .tech-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+    .tech-val { font-size: 0.85rem; font-weight: 700; font-family: var(--font-mono); }
+    .btn-group {
+      display: flex;
+      gap: 12px;
+    }
+    .btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      text-align: center;
+      transition: opacity 0.2s;
+    }
+    .btn-back { background: var(--status-danger); color: #fff; }
+    .btn-details { background: rgba(255, 255, 255, 0.08); color: var(--text-main); border: 1px solid rgba(255, 255, 255, 0.1); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="icon">🛡️</div>
+      <div>
+        <h1 class="title">CYBERSHIELD WEBSITE BLOCKED</h1>
+        <p class="subtitle">Real-Time Zero-Trust Web Protection Engine</p>
+      </div>
+    </div>
+
+    <div class="badge-row">
+      <div class="badge">THREAT LEVEL: HIGH</div>
+      <div class="badge">CLASSIFICATION: PHISHING</div>
+      <div id="riskScoreBadge" class="badge">RISK SCORE: 91%</div>
+    </div>
+
+    <div class="target-box">
+      <p class="url-title" style="color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; margin-bottom: 4px;">Blocked Target Destination</p>
+      <p id="targetUrl" class="target-url">http://example-login-security.xyz</p>
+      <p id="summaryText" class="summary-text">CRITICAL THREAT: This website exhibits severe phishing indicators and is attempting to harvest sensitive user credentials.</p>
+    </div>
+
+    <div class="issues-title">Why was this website blocked?</div>
+    <ul id="issuesList" class="issues-list">
+      <li>Suspicious domain brand impersonation detected</li>
+      <li>Raw IP hosting with authentication path</li>
+      <li>Negative multi-source threat intelligence rating</li>
+    </ul>
+
+    <div class="tech-grid">
+      <div class="tech-item"><p class="tech-label">Host Type</p><p id="techHostType" class="tech-val">IPv4</p></div>
+      <div class="tech-item"><p class="tech-label">IP Address</p><p id="techIp" class="tech-val">185.199.108.153</p></div>
+      <div class="tech-item"><p class="tech-label">Country / ISP</p><p id="techGeo" class="tech-val">Unknown</p></div>
+      <div class="tech-item"><p class="tech-label">Registered Domain</p><p id="techDomain" class="tech-val">example.xyz</p></div>
+    </div>
+
+    <div class="btn-group">
+      <button id="btnGoBack" class="btn btn-back">GO BACK TO SAFETY</button>
+      <button id="btnViewDetails" class="btn btn-details">VIEW SECURITY CONSOLE</button>
+    </div>
+  </div>
+
+  <script src="blocked.js"></script>
+</body>
+</html>

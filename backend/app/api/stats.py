@@ -36,6 +36,13 @@ def get_dashboard_statistics(db: Session = Depends(get_db)):
         GeoAttackNode(country="Germany", country_code="DE", lat=51.1657, lng=10.4515, threat_count=max(6, phishing_count * 1))
     ]
 
+    # Query v4.0 Protection Network Counters
+    from app.models import ProtectionDevice, BlockedEvent, SecurityAlert, NumberAbuseEvent
+    active_devices_count = db.query(ProtectionDevice).filter(ProtectionDevice.is_active == True).count()
+    blocked_urls_count = db.query(BlockedEvent).count()
+    security_alerts_count = db.query(SecurityAlert).filter(SecurityAlert.is_read == False).count()
+    number_events_count = db.query(NumberAbuseEvent).count()
+
     return DashboardStatsResponse(
         total_scans=total_scans,
         phishing_count=phishing_count,
@@ -44,7 +51,11 @@ def get_dashboard_statistics(db: Session = Depends(get_db)):
         avg_risk_score=avg_risk_score,
         recent_scans=recent_scans,
         geo_attack_map=geo_map,
-        high_risk_targets=high_risk_targets
+        high_risk_targets=high_risk_targets,
+        active_devices_count=active_devices_count,
+        blocked_urls_count=blocked_urls_count,
+        security_alerts_count=security_alerts_count,
+        number_protection_events_count=number_events_count
     )
 
 @router.get("/models")

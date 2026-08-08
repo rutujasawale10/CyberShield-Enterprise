@@ -128,6 +128,15 @@ class FeatureExtractor:
             except Exception:
                 dns_resolves = 0
 
+        # 7. Advanced URL Identity, IP Hosting & Country Anomaly Analysis
+        from app.ip_geo_engine import IPGeoEngine
+        identity_analysis = IPGeoEngine.analyze_url_identity(raw_url, offline=offline)
+        host_info = identity_analysis["host_info"]
+
+        # Ensure is_ip_address flags all IP hosts (IPv4, IPv6, Numeric, etc.)
+        if host_info["is_ip_host"]:
+            is_ip_address = 1
+
         features = {
             "raw_url": raw_url,
             "normalized_url": url,
@@ -161,7 +170,24 @@ class FeatureExtractor:
             "has_js_obfuscation": has_js_obfuscation,
             "is_blacklisted": is_blacklisted,
             "dns_resolves": dns_resolves,
-            "deep_analysis": deep_analysis
+            "deep_analysis": deep_analysis,
+
+            # Extended v3.0 URL Identity & Geolocation Intelligence Features
+            "identity_analysis": identity_analysis,
+            "host_type": host_info["host_type"],
+            "is_ip_host": host_info["is_ip_host"],
+            "is_ipv4": host_info["is_ipv4"],
+            "is_ipv6": host_info["is_ipv6"],
+            "is_private_ip": host_info["is_private_ip"],
+            "is_localhost": host_info["is_localhost"],
+            "ip_based_host_score": identity_analysis["ip_based_host_score"],
+            "domain_anomaly_score": identity_analysis["domain_anomaly_score"],
+            "registered_domain": identity_analysis["parsed_components"]["registered_domain"],
+            "subdomain": identity_analysis["parsed_components"]["subdomain"],
+            "geo_info": identity_analysis["geo_info"],
+            "geo_anomaly": identity_analysis["geo_anomaly"],
+            "ip_reputation": identity_analysis["ip_reputation"],
+            "identity_reasons": identity_analysis["identity_reasons"]
         }
         return features
 

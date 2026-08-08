@@ -66,12 +66,17 @@ const SOCDashboard = () => {
   const recentScans = Array.isArray(stats?.recent_scans) ? stats.recent_scans : [];
   const activeRecentScans = isDemoMode && demoTicker.length > 0 ? demoTicker : recentScans;
 
+  const activeDevices = stats?.active_devices_count ?? 1;
+  const blockedUrlsCount = stats?.blocked_urls_count ?? 0;
+  const secAlertsCount = stats?.security_alerts_count ?? 0;
+  const numEventsCount = stats?.number_protection_events_count ?? 0;
+
   const statCards = [
     { title: 'Total Intercepted Scans', value: totalScans, icon: <Activity color="var(--accent-cyan)" size={24} />, bg: 'rgba(0, 217, 255, 0.1)', border: 'rgba(0, 217, 255, 0.3)' },
-    { title: 'Phishing Attacks Blocked', value: phishingCount, icon: <ShieldAlert color="var(--status-danger)" size={24} />, bg: 'rgba(255, 61, 113, 0.12)', border: 'rgba(255, 61, 113, 0.35)' },
+    { title: 'Phishing Attacks Blocked', value: phishingCount + blockedUrlsCount, icon: <ShieldAlert color="var(--status-danger)" size={24} />, bg: 'rgba(255, 61, 113, 0.12)', border: 'rgba(255, 61, 113, 0.35)' },
     { title: 'Suspicious Domains Watched', value: suspiciousCount, icon: <AlertTriangle color="var(--status-warning)" size={24} />, bg: 'rgba(255, 193, 7, 0.12)', border: 'rgba(255, 193, 7, 0.35)' },
-    { title: 'Legitimate Domains Verified', value: safeCount, icon: <CheckCircle2 color="var(--status-safe)" size={24} />, bg: 'rgba(0, 230, 118, 0.12)', border: 'rgba(0, 230, 118, 0.35)' },
-    { title: 'Global Avg Threat Index', value: `${avgRisk}%`, icon: <Percent color="var(--accent-purple)" size={24} />, bg: 'rgba(139, 92, 246, 0.12)', border: 'rgba(139, 92, 246, 0.35)' }
+    { title: 'Active Protection Clients', value: activeDevices, icon: <Server color="var(--accent-cyan)" size={24} />, bg: 'rgba(0, 217, 255, 0.12)', border: 'rgba(0, 217, 255, 0.35)' },
+    { title: 'Security Alerts & Abuse Events', value: secAlertsCount + numEventsCount, icon: <Radio color="var(--accent-purple)" size={24} />, bg: 'rgba(139, 92, 246, 0.12)', border: 'rgba(139, 92, 246, 0.35)' }
   ];
 
   // Donut chart calculations

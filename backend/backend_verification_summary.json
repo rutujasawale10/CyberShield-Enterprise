@@ -26,7 +26,7 @@
     "req_body": null,
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "[text/plain; version=1.0.0; charset=utf-8] size=4753b",
+    "response_snippet": "[text/plain; version=1.0.0; charset=utf-8] size=4755b",
     "result": "PASS"
   },
   {
@@ -56,7 +56,7 @@
     "req_body": "form-data: username=admin@cybershield.com",
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "{'access_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBjeWJlcnNoaWVsZC5jb20iLCJyb2xlIjoiQWRtaW4iLCJleHAiOjE3ODYxOTQyNDMsInRva2VuX3R5cGUiOiJhY2Nlc3MifQ.-xNPOWPpBs1_C1-pieRraSy17JHLhl",
+    "response_snippet": "{'access_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbkBjeWJlcnNoaWVsZC5jb20iLCJyb2xlIjoiQWRtaW4iLCJleHAiOjE3ODYyODA4NTIsInRva2VuX3R5cGUiOiJhY2Nlc3MifQ.FTv-h2fvlD_n6OOFqrw3JPAuymwqeK",
     "result": "PASS"
   },
   {
@@ -64,11 +64,11 @@
     "endpoint": "/api/auth/register",
     "method": "POST",
     "req_body": {
-      "email": "analyst_1786107843@cybershield.com"
+      "email": "analyst_1786194452@cybershield.com"
     },
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "{'access_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmFseXN0XzE3ODYxMDc4NDNAY3liZXJzaGllbGQuY29tIiwicm9sZSI6IlVzZXIiLCJleHAiOjE3ODYxOTQyNDMsInRva2VuX3R5cGUiOiJhY2Nlc3MifQ.FrEtlT6dI2h0-i",
+    "response_snippet": "{'access_token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmFseXN0XzE3ODYxOTQ0NTJAY3liZXJzaGllbGQuY29tIiwicm9sZSI6IlVzZXIiLCJleHAiOjE3ODYyODA4NTIsInRva2VuX3R5cGUiOiJhY2Nlc3MifQ.-7dYwusOmFevEH",
     "result": "PASS"
   },
   {
@@ -112,7 +112,7 @@
     },
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "{'id': 25, 'url': 'http://amaz0n-login.xyz', 'domain': 'amaz0n-login.xyz', 'status': 'Phishing', 'risk_score': 98.2, 'confidence_score': 99.2, 'reasons': ['Fake domain pattern / Typosquatting brand sp",
+    "response_snippet": "{'id': 19, 'url': 'http://amaz0n-login.xyz', 'domain': 'amaz0n-login.xyz', 'status': 'Phishing', 'risk_score': 98.2, 'confidence': 99.2, 'confidence_score': 99.2, 'threat_level': 'HIGH', 'reasons': ['",
     "result": "PASS"
   },
   {
@@ -124,7 +124,7 @@
     },
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "{'id': 26, 'url': 'https://google.com', 'domain': 'google.com', 'status': 'Safe', 'risk_score': 0.0, 'confidence_score': 99.5, 'reasons': ['Standard domain structure verified with SSL/HTTPS protection",
+    "response_snippet": "{'id': 20, 'url': 'https://google.com', 'domain': 'google.com', 'status': 'Safe', 'risk_score': 0.0, 'confidence': 99.5, 'confidence_score': 99.5, 'threat_level': 'LOW', 'reasons': ['Standard domain s",
     "result": "PASS"
   },
   {
@@ -151,7 +151,7 @@
     },
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "[{'id': 27, 'url': 'http://amaz0n-login.xyz', 'domain': 'amaz0n-login.xyz', 'status': 'Phishing', 'risk_score': 98.2, 'confidence_score': 99.2, 'reasons': ['Fake domain pattern / Typosquatting brand s",
+    "response_snippet": "[{'id': 21, 'url': 'http://amaz0n-login.xyz', 'domain': 'amaz0n-login.xyz', 'status': 'Phishing', 'risk_score': 98.2, 'confidence': 99.2, 'confidence_score': 99.2, 'threat_level': 'HIGH', 'reasons': [",
     "result": "PASS"
   },
   {
@@ -173,7 +173,7 @@
     "req_body": null,
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "[]",
+    "response_snippet": "[{'id': 2, 'domain': 'malicious-domain-1786193108.xyz', 'threat_type': 'Phishing', 'source': 'Submitted by admin@cybershield.com (Admin)', 'added_on': '2026-08-08T12:45:08.278881'}, {'id': 1, 'domain'",
     "result": "PASS"
   },
   {
@@ -181,11 +181,11 @@
     "endpoint": "/api/threat-intel/add",
     "method": "POST",
     "req_body": {
-      "domain": "malicious-domain-1786107847.xyz"
+      "domain": "malicious-domain-1786194456.xyz"
     },
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "{'id': 1, 'domain': 'malicious-domain-1786107847.xyz', 'threat_type': 'Phishing', 'source': 'Submitted by admin@cybershield.com (Admin)', 'added_on': '2026-08-07T13:04:07.533640'}",
+    "response_snippet": "{'id': 3, 'domain': 'malicious-domain-1786194456.xyz', 'threat_type': 'Phishing', 'source': 'Submitted by admin@cybershield.com (Admin)', 'added_on': '2026-08-08T13:07:36.166043'}",
     "result": "PASS"
   },
   {
@@ -202,7 +202,7 @@
   },
   {
     "name": "Generate PDF Report by ID",
-    "endpoint": "/api/report/pdf/25",
+    "endpoint": "/api/report/pdf/19",
     "method": "GET",
     "req_body": null,
     "status_code": 200,
@@ -229,7 +229,7 @@
     "req_body": null,
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "[text/csv; charset=utf-8] size=7668b",
+    "response_snippet": "[text/csv; charset=utf-8] size=6036b",
     "result": "PASS"
   },
   {
@@ -239,7 +239,7 @@
     "req_body": null,
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "[{'id': 28, 'url': 'https://google.com', 'domain': 'google.com', 'status': 'Safe', 'risk_score': 0.0, 'confidence_score': 95.0, 'reasons': ['Standard domain structure verified with SSL/HTTPS protectio",
+    "response_snippet": "[{'id': 22, 'url': 'https://google.com', 'domain': 'google.com', 'status': 'Safe', 'risk_score': 0.0, 'confidence': 99.5, 'confidence_score': 99.5, 'threat_level': 'LOW', 'reasons': ['Standard domain ",
     "result": "PASS"
   },
   {
@@ -249,7 +249,7 @@
     "req_body": null,
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "[{'id': 27, 'url': 'http://amaz0n-login.xyz', 'domain': 'amaz0n-login.xyz', 'status': 'Phishing', 'risk_score': 98.2, 'confidence_score': 95.0, 'reasons': ['Fake domain pattern / Typosquatting brand s",
+    "response_snippet": "[{'id': 21, 'url': 'http://amaz0n-login.xyz', 'domain': 'amaz0n-login.xyz', 'status': 'Phishing', 'risk_score': 98.2, 'confidence': 99.2, 'confidence_score': 99.2, 'threat_level': 'HIGH', 'reasons': [",
     "result": "PASS"
   },
   {
@@ -259,7 +259,7 @@
     "req_body": null,
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "[text/csv; charset=utf-8] size=7513b",
+    "response_snippet": "[text/csv; charset=utf-8] size=5911b",
     "result": "PASS"
   },
   {
@@ -269,7 +269,7 @@
     "req_body": null,
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "{'total_scans': 28, 'phishing_count': 15, 'safe_count': 13, 'suspicious_count': 0, 'avg_risk_score': 51.9, 'recent_scans': [{'id': 28, 'url': 'https://google.com', 'domain': 'google.com', 'status': 'S",
+    "response_snippet": "{'total_scans': 22, 'phishing_count': 11, 'safe_count': 8, 'suspicious_count': 3, 'avg_risk_score': 55.9, 'recent_scans': [{'id': 22, 'url': 'https://google.com', 'domain': 'google.com', 'status': 'Sa",
     "result": "PASS"
   },
   {
@@ -289,7 +289,7 @@
     "req_body": null,
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "[{'id': 3, 'email': 'analyst_1786107843@cybershield.com', 'full_name': 'Test Analyst', 'role': 'User', 'is_active': True, 'created_at': '2026-08-07T13:04:03.694256'}, {'id': 2, 'email': 'analyst_17861",
+    "response_snippet": "[{'id': 5, 'email': 'analyst_1786194452@cybershield.com', 'full_name': 'Test Analyst', 'role': 'User', 'is_active': True, 'created_at': '2026-08-08T13:07:32.856903'}, {'id': 4, 'email': 'analyst_17861",
     "result": "PASS"
   },
   {
@@ -329,7 +329,7 @@
     "req_body": null,
     "status_code": 200,
     "expected_status": 200,
-    "response_snippet": "{'message': 'All scan audit logs cleared successfully', 'deleted_count': 28}",
+    "response_snippet": "{'message': 'All scan audit logs cleared successfully', 'deleted_count': 22}",
     "result": "PASS"
   }
 ]

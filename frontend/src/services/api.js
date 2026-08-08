@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || (import.meta.env.DEV ? 'http://localhost:8000/api' : '/api');
 
 const api = axios.create({
   baseURL: API_BASE_URL
@@ -134,5 +134,16 @@ export const updateUserRole = async (userId, newRole) => {
 
 export const clearAllLogs = async () => {
   const response = await api.delete('/admin/clear-logs');
+  return response.data;
+};
+
+// Protection Ecosystem API Calls (v4.0)
+export const getProtectionDevices = async () => {
+  const response = await api.get('/protection/devices');
+  return response.data;
+};
+
+export const revokeDevice = async (deviceId) => {
+  const response = await api.delete(`/protection/device/${deviceId}`);
   return response.data;
 };

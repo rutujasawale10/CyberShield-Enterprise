@@ -9,6 +9,7 @@ import LoginModal from './components/LoginModal';
 import SecurityToolsView from './components/SecurityToolsView';
 import BatchScanner from './components/BatchScanner';
 import HistoryTable from './components/HistoryTable';
+import DeviceManager from './components/DeviceManager';
 import Footer from './components/Footer';
 import ToastNotification from './components/ToastNotification';
 import { getCurrentUser, logoutUser } from './services/api';
@@ -67,6 +68,7 @@ const App = () => {
         {activeTab === 'home' && <LandingPage onNavigate={(tab) => setActiveTab(tab)} />}
         {activeTab === 'scanner' && <URLScanner showToast={showToast} />}
         {activeTab === 'soc' && <SOCDashboard />}
+        {activeTab === 'devices' && <DeviceManager />}
         {activeTab === 'benchmarks' && <ModelBenchmarkView />}
         {activeTab === 'tools' && <SecurityToolsView />}
         {activeTab === 'admin' && <AdminConsole currentUser={currentUser} showToast={showToast} />}

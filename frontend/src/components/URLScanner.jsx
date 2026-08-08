@@ -6,6 +6,7 @@ import DetectionReasons from './DetectionReasons';
 import FeatureBreakdown from './FeatureBreakdown';
 import XAIExplanation from './XAIExplanation';
 import ThreatIntelCard from './ThreatIntelCard';
+import HostGeoCard from './HostGeoCard';
 
 const URLScanner = ({ showToast }) => {
   const [url, setUrl] = useState('');
@@ -181,6 +182,9 @@ const URLScanner = ({ showToast }) => {
               {result.status === 'Safe' && 'VERIFIED SAFE: No threat vectors detected. Domain cleared for enterprise user navigation.'}
             </p>
           </div>
+
+          {/* Host & Geo Intelligence Card */}
+          <HostGeoCard result={result} />
 
           {/* Explainable AI (XAI) Attribution Component */}
           <XAIExplanation attributions={result.xai_attribution} confidence={result.confidence_score} />

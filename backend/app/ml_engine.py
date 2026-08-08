@@ -94,11 +94,29 @@ class MLEngine:
 
         raw_score = (ml_score * 0.60) + (intel_score * 0.40)
 
-        has_phish_brand = features.get("fake_domain_pattern") == 1 or features.get("typosquatting_detected") == 1 or features.get("is_ip_address") == 1 or features.get("count_at") > 0 or features.get("is_homograph_attack") == 1
-        has_suspicious_ind = features.get("has_suspicious_keyword") == 1 or features.get("is_https") == 0 or features.get("suspicious_tld") == 1 or features.get("is_shortened") == 1 or features.get("url_entropy", 0) > 4.2
+        is_ip = features.get("is_ip_address") == 1 or features.get("is_ip_host", False)
+        has_auth_path = features.get("identity_analysis", {}).get("has_auth_path", False) or features.get("has_suspicious_keyword") == 1
+        has_brand_spoof = features.get("fake_domain_pattern") == 1 or features.get("typosquatting_detected") == 1 or features.get("brand_in_subdomain", False)
+
+        has_phish_brand = (
+            has_brand_spoof or
+            (is_ip and (has_auth_path or intel_score >= 35)) or
+            features.get("count_at") > 0 or
+            features.get("is_homograph_attack") == 1
+        )
+
+        has_suspicious_ind = (
+            is_ip or
+            features.get("has_suspicious_keyword") == 1 or
+            features.get("is_https") == 0 or
+            features.get("suspicious_tld") == 1 or
+            features.get("is_shortened") == 1 or
+            features.get("url_entropy", 0) > 4.2 or
+            features.get("domain_anomaly_score", 0) >= 20
+        )
 
         if has_phish_brand:
-            final_risk_score = round(max(72.0, min(100.0, raw_score)), 1)
+            final_risk_score = round(max(72.0, min(100.0, raw_score if raw_score >= 70.0 else 72.0 + (ml_score * 0.15))), 1)
         elif has_suspicious_ind:
             final_risk_score = round(max(42.0, min(68.5, raw_score if raw_score >= 40.0 else 45.0 + (ml_score * 0.2))), 1)
         else:
@@ -108,11 +126,17 @@ class MLEngine:
 
         # 5. Generate Detection Reasons
         reasons = []
-        if features["is_ip_address"] == 1:
+
+        # Append Identity & IP/Domain Reasons first
+        for id_reason in features.get("identity_reasons", []):
+            if id_reason not in reasons:
+                reasons.append(id_reason)
+
+        if features["is_ip_address"] == 1 and not any("IP" in r for r in reasons):
             reasons.append("Hosted directly on raw IP address instead of registered domain name")
-        if features["count_at"] > 0:
+        if features["count_at"] > 0 and not any("@" in r for r in reasons):
             reasons.append("Contains '@' symbol used for URL destination redirection trick")
-        if features["fake_domain_pattern"] == 1 or features["typosquatting_detected"] == 1:
+        if (features["fake_domain_pattern"] == 1 or features["typosquatting_detected"] == 1) and not any("spoofing" in r for r in reasons):
             reasons.append("Fake domain pattern / Typosquatting brand spoofing detected")
         if features["has_suspicious_keyword"] == 1:
             kw_str = ", ".join(features["found_keywords"])
@@ -125,7 +149,7 @@ class MLEngine:
             reasons.append("Uses URL shortener service to hide true destination URL")
         if features["url_entropy"] > 4.5:
             reasons.append(f"High URL String Randomness / Obfuscation (Entropy: {features['url_entropy']})")
-        if features["is_homograph_attack"] == 1:
+        if features["is_homograph_attack"] == 1 and not any("Punycode" in r for r in reasons):
             reasons.append("Punycode (xn--) Internationalized Domain Homograph Attack detected")
 
         # 3-Tier Status & Threat Level determination
@@ -145,6 +169,8 @@ class MLEngine:
         # 6. Compute XAI Feature Attribution
         xai_attribution = cls.calculate_xai_attribution(features, phishing_probability)
 
+        geo_info = features.get("geo_info", {})
+
         return {
             "url": raw_url,
             "domain": features["domain"],
@@ -154,7 +180,22 @@ class MLEngine:
             "confidence_score": confidence_score,
             "threat_level": threat_level,
             "reasons": reasons,
+            "detection_reasons": reasons,
             "extracted_features": features,
             "threat_intel": threat_intel,
-            "xai_attribution": xai_attribution
+            "xai_attribution": xai_attribution,
+
+            # Extended v3.0 Identity & Geolocation API Fields
+            "host_type": features.get("host_type", "DOMAIN"),
+            "is_ip_host": features.get("is_ip_host", False),
+            "ip_address": geo_info.get("ip_address"),
+            "country": geo_info.get("country", "Unknown"),
+            "country_code": geo_info.get("country_code"),
+            "asn": geo_info.get("asn", "Unknown"),
+            "isp": geo_info.get("isp", "Unknown"),
+            "registered_domain": features.get("registered_domain"),
+            "subdomain": features.get("subdomain"),
+            "geo_anomaly": features.get("geo_anomaly", False),
+            "ip_reputation": features.get("ip_reputation", "UNKNOWN"),
+            "domain_anomaly_score": features.get("domain_anomaly_score", 0.0)
         }

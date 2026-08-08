@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+backend/__pycache__/
+backend/app/__pycache__/
+backend/app/api/__pycache__/
+backend/ml/__pycache__/
+backend/tests/__pycache__/
+*.pyc
+.pytest_cache/
+
+# Production build outputs
+frontend/dist/
+dist/
+
+# Environment Variables & Secrets
+.env
+.env.local
+.env.production
+*.env
+
+# Operating System & IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local databases (Optional, depending on deployment strategy)
+*.sqlite
+*.db
+*.db-journal
+
+# Vercel Deployment Artifacts
+.vercel/

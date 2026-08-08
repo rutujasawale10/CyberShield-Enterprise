@@ -1,55 +1,61 @@
-# CyberShield Enterprise - Cloud Deployment Guide
+# CyberShield Enterprise v4.0 — Vercel Full-Stack Deployment Guide
 
-This guide covers step-by-step instructions for deploying CyberShield Enterprise across **Render**, **Railway**, **Vercel**, **AWS EC2**, and **Azure**.
-
----
-
-## 1. Deploying Backend on Render
-
-1. Connect your GitHub repository to [Render.com](https://render.com).
-2. Create a new **Web Service**.
-3. Set the environment settings:
-   - **Environment**: `Python 3`
-   - **Build Command**: `pip install -r backend/requirements.txt && python -m backend.ml.train`
-   - **Start Command**: `python backend/run.py`
-4. Add Environment Variables:
-   - `JWT_SECRET_KEY`: `your_custom_production_secret`
-   - `VIRUSTOTAL_API_KEY`: `[Optional VT Key]`
-   - `GOOGLE_SAFE_BROWSING_API_KEY`: `[Optional GSB Key]`
+This guide covers full-stack deployment of CyberShield Enterprise on **Vercel** using **GitHub + Vercel**.
 
 ---
 
-## 2. Deploying Backend on Railway
-
-1. Install Railway CLI or connect via [Railway.app](https://railway.app).
-2. Select **Deploy from GitHub repo**.
-3. Railway will detect `backend/Dockerfile` automatically.
-4. Set port variable `PORT=8000`.
-
----
-
-## 3. Deploying Frontend on Vercel
-
-1. Log into [Vercel.com](https://vercel.com) and click **Import Project**.
-2. Select the `frontend/` directory.
-3. Framework Preset: **Vite**.
-4. Build Command: `npm run build`.
-5. Output Directory: `dist`.
-6. Environment Variable:
-   - `VITE_API_BASE_URL`: `https://your-backend-render-url.onrender.com/api`
+## Architecture Overview
+- **Frontend**: React + Vite SPA built from `frontend/` (`dist/` output).
+- **Backend**: FastAPI Python Serverless Function (`api/index.py` wrapping `backend/app/main.py`).
+- **Database**: SQLite in-memory / ephemeral `/tmp/cybershield_enterprise.db` (cold start auto-seed) or remote PostgreSQL via `DATABASE_URL`.
+- **Browser Extension**: Manifest V3 extension in `browser-extension/` configured to communicate with the deployed Vercel backend URL.
 
 ---
 
-## 4. Deploying Full Stack via Docker Compose on AWS EC2 / Azure VM
+## Step-by-Step Vercel Deployment Instructions
 
-1. Launch an Ubuntu 22.04 LTS instance on AWS EC2 or Azure VM.
-2. Open ports `80`, `443`, `8000`, and `5173` in Security Group / Firewall settings.
-3. SSH into the server:
-   ```bash
-   sudo apt update && sudo apt install -y docker.io docker-compose git
-   ```
-4. Clone the repository and run:
-   ```bash
-   docker-compose up -d --build
-   ```
-5. Your application is live at `http://your-ec2-ip:5173`!
+### 1. Push Code to GitHub
+Ensure all changes are committed and pushed to your GitHub repository:
+```bash
+git add .
+git commit -m "Configure CyberShield v4.0 for Vercel deployment"
+git push origin main
+```
+
+### 2. Import Project in Vercel
+1. Log into [Vercel](https://vercel.com) and click **Add New Project**.
+2. Select your GitHub repository (`CyberShield-Enterprise`).
+3. Set **Root Directory** to `./` (Project Root).
+
+### 3. Vercel Project Settings
+Vercel automatically reads `vercel.json` and `requirements.txt` from the repository root:
+- **Build Command**: `cd frontend && npm run build` (handled automatically via `vercel.json`).
+- **Output Directory**: `frontend/dist`
+- **Framework Preset**: `Vite`
+
+### 4. Required Environment Variables in Vercel Dashboard
+In **Project Settings -> Environment Variables**, add:
+
+| Key | Example Value | Description |
+| :--- | :--- | :--- |
+| `VITE_API_BASE_URL` | `https://your-project.vercel.app/api` | API Base URL for frontend console |
+| `JWT_SECRET_KEY` | `<your-secure-jwt-secret>` | Secret key for signing JWT tokens |
+| `JWT_REFRESH_SECRET_KEY` | `<your-secure-refresh-secret>` | Secret key for refresh tokens |
+| `ALLOWED_ORIGINS` | `https://your-project.vercel.app` | Allowed CORS origins |
+| `DATABASE_URL` | `postgresql://user:pass@ep-host.region.aws.neon.tech/cybershield` | Optional remote PostgreSQL URI |
+| `VIRUSTOTAL_API_KEY` | `<optional-vt-key>` | Optional VirusTotal API key |
+
+---
+
+## 5. Connecting the Browser Extension
+1. Install the extension in Chrome or Edge (`chrome://extensions/` -> **Load unpacked** -> `browser-extension/`).
+2. Click the CyberShield extension icon in your browser toolbar.
+3. In the extension popup, update **Backend Protection API** to your live Vercel URL:
+   `https://your-project.vercel.app/api`
+
+---
+
+## 6. Offline Failure Behavior
+If the Vercel backend is offline or network fails:
+- Extension displays `OFFLINE / UNVERIFIED` status and `N/A` risk score.
+- **NEVER** falsely reports `SAFE` or `0%` when unverified.
