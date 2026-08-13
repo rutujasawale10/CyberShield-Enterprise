@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Bell, ShieldAlert, CheckCircle2, AlertTriangle, UserCheck, Lock, X } from 'lucide-react';
 
 const NotificationCenter = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(3);
+  const containerRef = useRef(null);
+
+  const [panelStyle, setPanelStyle] = useState({
+    position: 'absolute',
+    top: '48px',
+    left: '0px',
+    width: '340px',
+    maxWidth: 'calc(100vw - 20px)',
+    background: 'rgba(13, 19, 34, 0.95)',
+    backdropFilter: 'blur(20px)',
+    border: '1px solid var(--accent-cyan)',
+    borderRadius: '12px',
+    padding: '16px',
+    boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
+    zIndex: 1000
+  });
+
   const [notifications, setNotifications] = useState([
     { id: 1, type: 'THREAT', title: 'Phishing Threat Intercepted', desc: 'http://amaz0n-login.xyz (Risk: 94.2%)', time: '2 mins ago', unread: true },
     { id: 2, type: 'SCAN', title: 'Batch Scan Completed', desc: '15 target URLs analyzed (0 errors)', time: '14 mins ago', unread: true },
@@ -16,8 +33,65 @@ const NotificationCenter = () => {
     setUnreadCount(0);
   };
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const updatePosition = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const panelWidth = Math.min(340, viewportWidth - 20);
+
+      // Default target X in viewport: align panel's left edge with bell icon's left edge (below & right of bell)
+      let targetX = rect.left;
+
+      // Prevent panel right edge from overflowing viewport (keep at least 10px margin)
+      if (targetX + panelWidth > viewportWidth - 10) {
+        targetX = viewportWidth - panelWidth - 10;
+      }
+
+      // Prevent panel left edge from overflowing viewport (keep at least 10px margin)
+      if (targetX < 10) {
+        targetX = 10;
+      }
+
+      // Compute style.left relative to containerRef
+      const relativeLeft = targetX - rect.left;
+
+      setPanelStyle({
+        position: 'absolute',
+        top: '48px',
+        left: `${relativeLeft}px`,
+        width: `${panelWidth}px`,
+        maxWidth: 'calc(100vw - 20px)',
+        background: 'rgba(13, 19, 34, 0.95)',
+        backdropFilter: 'blur(20px)',
+        border: '1px solid var(--accent-cyan)',
+        borderRadius: '12px',
+        padding: '16px',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
+        zIndex: 1000
+      });
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    return () => window.removeEventListener('resize', updatePosition);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isOpen]);
+
   return (
-    <div style={{ position: 'relative' }}>
+    <div ref={containerRef} style={{ position: 'relative' }}>
       <button
         onClick={handleToggle}
         style={{
@@ -43,7 +117,7 @@ const NotificationCenter = () => {
       </button>
 
       {isOpen && (
-        <div style={{ position: 'absolute', top: '48px', right: 0, width: '340px', background: 'rgba(13, 19, 34, 0.95)', backdropFilter: 'blur(20px)', border: '1px solid var(--accent-cyan)', borderRadius: '12px', padding: '16px', boxShadow: '0 8px 32px rgba(0,0,0,0.6)', zIndex: 300 }}>
+        <div style={panelStyle}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid var(--border-muted)', paddingBottom: '10px', marginBottom: '12px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Bell size={16} color="var(--accent-cyan)" />
